@@ -11,7 +11,7 @@ Many Flutter apps use `supabase_flutter` or Firebase packages. Both platforms ar
 - **Supabase**: Missing Row Level Security (RLS) on tables means anyone with the anon key can read/write everything.
 - **Firebase Realtime Database**: Rules set to `".read": true` or `".write": true` make data publicly accessible.
 
-These scripts simulate what an external attacker or security researcher sees when using only the public keys.
+These scripts simulate what an external attacker or security researcher sees when using only public, non-secret inputs: the Supabase anon key, or just the Firebase project ID (no key at all).
 
 ## Included Scripts
 
@@ -96,6 +96,18 @@ SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 ```
 
 ---
+
+## Known Limitations
+
+- **Point-in-time checks only.** These scripts test the current state of your rules/policies at the moment you run them — they don't continuously monitor for drift. Re-run after every deploy or rules change.
+- **Supabase checker:**
+  - Only audits the tables you explicitly pass with `--table`/`--tables` — it does not enumerate your schema, so tables you forget to list are not checked.
+  - Only tests unauthenticated `SELECT` access with the anon key. It does not validate `INSERT`/`UPDATE`/`DELETE` policies, RPC functions, or Storage bucket rules, and does not test behavior for authenticated users.
+  - An empty result is treated as "protected," but a table that is genuinely empty (with no RLS enabled) will look identical to a properly protected one — always confirm RLS is enabled via the Supabase dashboard, not just this script's output.
+- **Firebase checker:**
+  - Only checks Realtime Database rules for a single path per run — it does not recursively scan your whole database tree, and does not check Cloud Firestore, Storage, or Auth rules.
+  - A `null`/empty response is treated as "protected," but an unprotected path with no data yet will look the same — verify rules directly in the Firebase Console as well.
+- **Not a full security audit.** These are lightweight external "black box" probes using only public keys/IDs. They catch common misconfigurations but are not a substitute for a proper security review of your backend rules and policies.
 
 ## Related Resources
 
