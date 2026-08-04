@@ -1,6 +1,6 @@
 ---
 name: vibe-check
-description: Use this skill when working in a Flutter project that uses Supabase and/or Firebase Realtime Database, and the user asks to audit, check, or "vibe check" backend security — e.g. "check my backend for exposed tables", "run a security audit before I ship", "is my Supabase RLS actually working", "any tables leaking data". Wraps the repo's check_supabase_rls.sh and check_firebase_realtime_exposure.sh scripts with project-aware discovery, table/path inference, and tailored remediation. Invocation: /vibe-check
+description: "Use this skill when working in a Flutter project that uses Supabase and/or Firebase Realtime Database, and the user asks to audit, check, or \"vibe check\" backend security — e.g. \"check my backend for exposed tables\", \"run a security audit before I ship\", \"is my Supabase RLS actually working\", \"any tables leaking data\". Wraps the repo's check_supabase_rls.sh and check_firebase_realtime_exposure.sh scripts with project-aware discovery, table/path inference, and tailored remediation. Invocation: /vibe-check"
 ---
 
 # Vibe Check — Backend Security Audit for Flutter
